@@ -1,0 +1,4 @@
+To Start mysql database on localhost -- Run docker container on localhost
+docker run command
+
+docker run  --name mysql  -t  --net=host -e MYSQL_DATABASE="InvoiceTracker" -e MYSQL_USER="backend" -e MYSQL_PASSWORD="backend"  -e MYSQL_ROOT_PASSWORD="backend" -d mysql

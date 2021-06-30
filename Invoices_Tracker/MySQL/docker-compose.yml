@@ -1,0 +1,10 @@
+services:
+    db:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: backend
+            MYSQL_DATABASE: backend
+            MYSQL_USER: backend
+            MYSQL_PASSWORD: backend
+        ports:
+            - "42333:3306"
