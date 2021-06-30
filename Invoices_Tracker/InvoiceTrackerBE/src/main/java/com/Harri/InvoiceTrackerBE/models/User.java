@@ -7,17 +7,26 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
+
+    @Column(nullable = false, length = 20)
     private String firstName;
+    @Column(nullable = false, length = 20)
     private String lastName;
+    @Column(nullable = false,unique = true, length = 45)
     private String email;
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false)
     private int age;
+    @Column(nullable = false, length = 30)
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private UserRole role;
 
     public User() {
@@ -42,11 +51,11 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
