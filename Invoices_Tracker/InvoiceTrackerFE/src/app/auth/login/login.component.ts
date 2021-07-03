@@ -3,80 +3,69 @@ import {AuthService} from '../auth.service';
 import {Login} from './login.model';
 import {Subscription} from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpService } from 'src/shared/http.service';
+import { API_CONST } from 'src/shared/shared.constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Token } from './token.model';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent {
 
-  // constructor(private authService: AuthService) {
-  // }
+ 
 
-  constructor(private router: Router) { }
+  constructor( private httpService : HttpService, private router: Router) { }
 
-  ngOnDestroy(): void {
-    throw new Error('Method  Commented Below .');
-  }
 
-  
   // msgs: Message[] = [];
   loginRequest: Login = new Login('', '');
   content = true;
   subscriptions: Subscription[] = [];
+  badCredentials=false
+  
+  password: string =''
+  email: string =''
 
-  // login() {
-  //   this.msgs = [];
-  //   this.subscriptions.push(
-  //     this.authService.login(this.loginRequest).subscribe(
-  //       data => {
-  //       this.authService.storeToken(data);
-  //       this.getUserInformation();
-  //       this.hideMsgs();
-  //     },
-  //     error => {
-  //       this.showError('Incorrect Username or Password!');
-  //     }));
-  // }
+  onSubmit(){
+    let  loginCred = new Login(this.email,this.password);
+    // console.log(loginCred)
+    // this.httpService.post(`${API_CONST.ACTIONS.LOGIN}`, (loginCred)).toPromise().then((token) => {
+   
 
-  // getUserInformation() {
-  //   this.subscriptions.push(
-  //     this.authService.getUserInformation().subscribe(
-  //       (data: User) => {
-  //         this.authService.saveUser(data);
-  //         this.authService.routeUser();
-  //       }));
-  // }
+    // }).catch((err: HttpErrorResponse) => {
+    //   console.error( err.error);
+    //   this.badCredentials=true;
+    // });
+    
+    this.httpService.post(`${API_CONST.ACTIONS.LOGIN}`, (loginCred)).subscribe((response : any) =>{
+      console.log(response)
+      this.badCredentials=false;
+      this.getUserInformation(response.token)
+      localStorage.setItem ('token', response.token);
+      this.router.navigateByUrl("/dashboard");
+    },
+    error=>{
+      console.error( error.error);
+      this.badCredentials=true;
+    })
+     
+  }
 
-  // resetPassword() {
-  //   this.msgs = [];
-  //   this.subscriptions.push(
-  //     this.authService.resetPassword(this.loginRequest.username).subscribe(
-  //       data => {
-  //       this.hideMsgs();
-  //       this.showSuccessMessage();
-  //     },
-  //     error => {
-  //       this.showError('Incorrect Username!');
-  //     }));
-  // }
 
-  // showSuccessMessage() {
-  //   this.msgs = [];
-  //   this.msgs.push({severity: 'success', summary: 'Email Sent: ', detail: 'Check your Email to reset Password!'});
-  // }
+  getUserInformation(token :string) {
+    this.httpService.getWithToken(`${API_CONST.ACTIONS.LOGGED_IN}`,token).subscribe((user:any)=>{
+      console.log(user);
+      localStorage.setItem ('email', user.email);
+      localStorage.setItem ('role', user.role);
+    },
+    error=>{
+      console.error( error.error);
+      this.badCredentials=true;
+    });
+  }
 
-  // showError(msg: string) {
-  //   this.msgs = [];
-  //   this.msgs.push({severity: 'warn', summary: 'Error: ', detail: msg});
-  // }
 
-  // hideMsgs() {
-  //   this.msgs = [];
-  // }
-
-  // ngOnDestroy() {
-  //   this.subscriptions.forEach(s => s.unsubscribe());
-  // }
 }

@@ -6,22 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.constraints.Null;
-import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
+    LoginUserDetailsService jwtUserDetailsService;
+
+    @Autowired
     UserRepository userRepo;
-    public ResponseEntity signUp( User user){
+
+    public ResponseEntity<?> signUp( User user){
+
         if(validateEmail(user.getEmail())) {
             userRepo.save(user);
-            return new ResponseEntity<>("User Signed Up Successfully", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else
         {
-            return new ResponseEntity<>("email already exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
         }
     }
 

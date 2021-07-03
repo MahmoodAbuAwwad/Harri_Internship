@@ -5,6 +5,7 @@ import {STORAGE} from './shared.constants';
 
 
 const TOKEN_HEADER_KEY = 'Authorization';
+const CONTENT_TYPE = "Content-Type"
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

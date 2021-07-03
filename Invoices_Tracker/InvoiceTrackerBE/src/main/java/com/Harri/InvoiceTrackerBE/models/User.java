@@ -23,7 +23,7 @@ public class User {
     private String address;
     @Column(nullable = false)
     private int age;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 500)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
