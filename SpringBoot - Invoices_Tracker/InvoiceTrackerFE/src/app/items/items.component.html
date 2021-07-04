@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+<div>
+  <br><br>
+  <td><button type="button" class="btn btn-primary" (click)="navigate($event)">New item</button></td>
+  <br>
+</div>
+<table class="table">
+    <thead class="thead-dark">
+        <tr style="text-align: center; width: 100%;">
+            <td style="font-size: large; font-weight: bold;">Items Tables</td>
+        </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">name</th>
+        <th scope="col">price</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of allItemsList">
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.name}}</td>
+        <td>{{item.price}} $</td>
+        <td scope="col"><button type="button" class="btn btn-warning" (click)="editItem($event)">Edit {{item.id}}</button></td>
+        <td scope="col"><button type="button" class="btn btn-danger" (click)="deleteItem($event)">Delete {{item.id}}</button> </td>
+      </tr>
+    </tbody>
+  </table>
