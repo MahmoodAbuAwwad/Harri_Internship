@@ -1,4 +1,5 @@
 This is project represent an Invoice Tracker System
-* Backend BE
-* Frontend FE
+* Backend BE - Spring Boot 
+* Frontend FE - Angular 10
+* MySql - Docker Container
 
