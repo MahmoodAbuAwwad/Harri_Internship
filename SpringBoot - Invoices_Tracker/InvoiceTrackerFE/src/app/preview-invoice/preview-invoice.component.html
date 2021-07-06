@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+<div>
+    <br><br>
+    <br>
+</div>
+<table class="table">
+    <thead class="thead-dark">
+        <tr style="text-align: center; width: 100%;">
+            <td style="font-size: large; font-weight: bold;">Preview Invoice</td>
+        </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Date</th>
+        <th scope="col">Total</th>
+        <th scope="col">User</th>
+        <th scope="col">attachment type</th>
+        <th scope="col">attachment path</th>
+
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let invoice of invoicePreveiw">
+            <th scope="row">{{invoice.id}}</th>
+            <td>{{invoice.invoiceType}}</td>
+            <td>{{invoice.invoiceDate}}</td>
+            <td>{{invoice.invoiceTotal}} $</td>
+            <td>{{invoice.user.firstName}}{{invoice.user.lastName}}</td>
+            <td>{{invoice.fileType}}</td>
+            <td>{{invoice.filePath}}</td>
+          </tr>
+    </tbody>
+  </table>
+
+  <table class="table">
+    <thead class="thead-dark">
+        <tr style="text-align: center; width: 100%;">
+            <td style="font-size: large; font-weight: bold;">Invoice Logs</td>
+        </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Note</th>
+        <th scope="col">Data Before</th>
+        <th scope="col">Data After</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of invoicePreveiwLogs">
+        <th scope="row">{{log.id}}</th>
+        <td>{{log.logDate}}</td>
+        <td>{{log.logStatus}}</td>
+        <td>{{log.logNote}}</td>
+        <td>{{log.logDataBefore}}</td>
+        <td>{{log.logDataAfter}}</td>
+      </tr>
+    </tbody>
+  </table>

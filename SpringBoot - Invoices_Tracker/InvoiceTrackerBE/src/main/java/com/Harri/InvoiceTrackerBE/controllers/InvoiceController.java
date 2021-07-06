@@ -2,14 +2,13 @@ package com.Harri.InvoiceTrackerBE.controllers;
 
 import com.Harri.InvoiceTrackerBE.models.Invoice;
 
+import com.Harri.InvoiceTrackerBE.models.InvoiceLogs;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceItemsRepository;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceRepository;
 import com.Harri.InvoiceTrackerBE.services.InvoiceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,9 +28,9 @@ public class InvoiceController  {
     private InvoiceItemsRepository invoicesItemsRepo;
 
     @Autowired
-    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogs invoiceLogRepo;
+    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogsRepository invoiceLogRepo;
     @Autowired
-    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogs logsRepo;
+    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogsRepository logsRepo;
 
     public static  String uploadDir = System.getProperty("user.dir")+"/uploads";
 
@@ -50,10 +49,33 @@ public class InvoiceController  {
         return invoiceService.getAllInvoices(pageNo,pageSize,sortBy);
     }
 
+    @GetMapping("/invoices/preview/{id}")
+    public Invoice getInvoice(@PathVariable long id)  {
+        try{
+            return invoiceService.previewInvoice(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
+    @GetMapping("/invoices/preview/logs/{invoiceId}")
+    public List<InvoiceLogs> getInvoiceLogs(@PathVariable long invoiceId)  {
+        return invoiceService.getLogsofInvoices(Long.valueOf(invoiceId));
+    }
     @GetMapping("/invoices/{user_id}")
     public List<Invoice> getAllInvoicesOfUser(@PathVariable long user_id, @RequestParam(defaultValue = "0") Integer pageNo,
                                               @RequestParam(defaultValue = "10") Integer pageSize,
-                                              @RequestParam(defaultValue = "invoiceDate") String sortBy )  {
+                                              @RequestParam(defaultValue = "invoiceDate") String sortBy)  {
         return invoiceService.getAllInvoicesOfUser(user_id,pageNo,pageSize,sortBy);
+    }
+
+
+//    @PreAuthorize("hasAuthority('SUPERUSER')"+"||hasAuthority('USER') ")
+    @DeleteMapping("/invoices/delete/{id}")
+    public ResponseEntity<?> deleteInvoice(@PathVariable long id) throws Exception {
+
+        return this.invoiceService.deleteInvoice(id);
     }
 }

@@ -18,10 +18,9 @@ public class InvoicesItems {
     private long id;
 
     @Column(nullable = false)
-    private long item_id;
+    private long itemId;
 
     @Column(nullable = false)
-    private  long invoice_id;
-
+    private  long invoiceId;
 
 }

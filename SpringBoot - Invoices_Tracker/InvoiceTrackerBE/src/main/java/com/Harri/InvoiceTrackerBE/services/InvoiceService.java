@@ -7,6 +7,7 @@ import com.Harri.InvoiceTrackerBE.models.*;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceItemsRepository;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceRepository;
 import com.Harri.InvoiceTrackerBE.repositories.ItemRepository;
+import com.Harri.InvoiceTrackerBE.repositories.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -40,7 +35,9 @@ public class InvoiceService {
     private InvoiceItemsRepository invoiceItemsRepo;
 
     @Autowired
-    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogs invoiceLogsRepo;
+    private UserRepository userRepo;
+    @Autowired
+    private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogsRepository invoiceLogsRepo;
 
 
 
@@ -70,8 +67,8 @@ public class InvoiceService {
         if(createdInvoice!=null){
             for(Item item : getItemsJson(invoiceJson.getJSONArray("items"))){
                 InvoicesItems invoiceItem = new InvoicesItems();
-                invoiceItem.setInvoice_id(newInvoice.getId());
-                invoiceItem.setItem_id(item.getId());
+                invoiceItem.setInvoiceId(newInvoice.getId());
+                invoiceItem.setItemId(item.getId());
                 if (this.invoiceItemsRepo.save(invoiceItem)==null){
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
@@ -92,7 +89,6 @@ public class InvoiceService {
             }else{
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -148,6 +144,7 @@ public class InvoiceService {
         return arr;
     }
 
+        //TODO: Get Pagging Based on USER ROLE.
         public List<Invoice> getAllInvoices(Integer pageNo,Integer pageSize, String sortBy){
             PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
             Page<Invoice> pagedResult = invoiceRepo.findAll(paging);
@@ -157,18 +154,53 @@ public class InvoiceService {
             } else {
                 return new ArrayList<Invoice>();
             }
-//            return (List<Invoice>) invoiceRepo.findAll();
         }
 
         public List<Invoice> getAllInvoicesOfUser(long user_id,Integer pageNo,Integer pageSize, String sortBy){
              List<Invoice> allInvoices = getAllInvoices(pageNo,pageSize,sortBy);
+             User user = userRepo.findById(user_id);
              List<Invoice> forUser =new ArrayList<>();
-             for(int i=0; i<allInvoices.size();i++){
-                 if(allInvoices.get(i).getUser().getId()==user_id){
-                     forUser.add((allInvoices.get(i)));
+             if(user.getRole()==UserRole.USER){
+                 for(int i=0; i<allInvoices.size();i++){
+                     if(allInvoices.get(i).getUser().getId()==user.getId()){
+                         forUser.add((allInvoices.get(i)));
+                     }
                  }
              }
-             return forUser;
+             else{
+                 for(int i=0; i<allInvoices.size();i++){
+                         forUser.add((allInvoices.get(i)));
+                 }
+             }
 
+             return forUser;
         }
+
+        public ResponseEntity<?> deleteInvoice(long id){
+            Invoice deletedInvoice = invoiceRepo.findById(id);
+            try{
+                invoiceItemsRepo.deleteAllByInvoiceId(id);
+                invoiceRepo.delete(deletedInvoice);
+                return  new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return  new ResponseEntity<>("Invoice can't be deleted !",HttpStatus.BAD_REQUEST);
+            }
+        }
+
+    public Invoice previewInvoice(long id) throws Exception{
+        Invoice invoice = invoiceRepo.findById(id);
+        if(invoice!=null){
+            return invoice;
+        }
+        else{
+            throw  new Exception("Error, No invoice Found");
+        }
+    }
+
+    public List<InvoiceLogs> getLogsofInvoices(long invoiceId) {
+        List<InvoiceLogs> logs = invoiceLogsRepo.findAllByInvoice_Id(invoiceId);
+        return  logs;
+    }
 }

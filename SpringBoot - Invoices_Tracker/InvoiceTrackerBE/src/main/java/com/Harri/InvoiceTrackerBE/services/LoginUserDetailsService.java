@@ -2,6 +2,7 @@ package com.Harri.InvoiceTrackerBE.services;
 import java.util.*;
 
 import com.Harri.InvoiceTrackerBE.enums.UserRole;
+import com.Harri.InvoiceTrackerBE.models.User;
 import com.Harri.InvoiceTrackerBE.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +22,7 @@ public class LoginUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         com.Harri.InvoiceTrackerBE.models.User user = userRepo.findByEmail(email);
-        if (user == null) {
+        if (user == null || user.getDeleted()==1) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),

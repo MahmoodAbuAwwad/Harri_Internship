@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -93,15 +94,26 @@ public class UserController {
     @PreAuthorize("hasAuthority('SUPERUSER')")
     @GetMapping("/users")
     public List<User> getAllUsers(){
-        return userService.getAllUser();
+        List<User> users = userService.getAllUser();
+        List<User> activatedUsers = new ArrayList<User>();
+        for(int i =0; i<users.size();i++){
+            if(users.get(i).getDeleted()==0){
+                activatedUsers.add(users.get(i));
+            }
+        }
+        return activatedUsers;
     }
     @PreAuthorize("hasAuthority('SUPERUSER')")
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable long id){
-        return userService.getUser(id);
+    public User getUser(@PathVariable long id) throws Exception {
+        User returnedUser = userService.getUser(id);
+        if(returnedUser.getDeleted()==1){
+            throw new Exception("User is not found (deleted) ");
+        }
+        return returnedUser;
     }
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    @DeleteMapping("/users/delete/{id}")
+    @PutMapping("/users/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable long id) throws Exception {
        return userService.deleteUser(id);
     }

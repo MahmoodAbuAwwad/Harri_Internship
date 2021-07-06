@@ -41,7 +41,7 @@ export class UsersComponent implements OnInit {
       let id = parseInt(event.srcElement.outerText.split(" ")[1]);
       console.log(id);
       console.log(`${API_CONST.ACTIONS.DELETE_USER+id}`)
-      this.httpService.deleteWithToken(`${API_CONST.ACTIONS.DELETE_USER+id}`,this.token).subscribe(data=>{
+      this.httpService.putWithToken(`${API_CONST.ACTIONS.DELETE_USER+id}`,null,this.token).subscribe(data=>{
         location.reload();
       },
       error=>{

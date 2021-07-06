@@ -35,6 +35,9 @@ public class User {
     @Column(nullable = false, length = 500)
     private String password;
 
+    @Column(nullable = false, name = "deleted")
+    private int deleted;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private UserRole role;

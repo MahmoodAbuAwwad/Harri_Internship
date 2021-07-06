@@ -12,7 +12,11 @@ export const API_CONST = {
       EDIT_ITEM:'items/edit',
       ADD_ITEM:'items',
       ADD_INVOICE:'invoices',
-      GET_INVOICES:'invoices'
+      GET_INVOICES:'invoices',
+      DELETE_INVOICE:'invoices/delete/',
+      PREVIEW_GET_INVOICE:'invoices/preview/',
+      PREVIEW_GET_INVOICE_LOGS:'invoices/preview/logs/'
+
     }
   };
   export const ROLES = {

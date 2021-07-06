@@ -11,6 +11,7 @@ import { ItemsComponent } from './items/items.component';
 import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { NewItemComponent } from './new-item/new-item.component';
 import { NewUserComponent } from './new-user/new-user.component';
+import { PreviewInvoiceComponent } from './preview-invoice/preview-invoice.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -27,6 +28,8 @@ const routes: Routes = [
   { path: 'editItem', component: EditItemComponent },
   { path: 'newInvoice', component: NewInvoiceComponent },
   { path: 'error', component: ErrorComponent },
+  { path: 'preview', component: PreviewInvoiceComponent },
+
 
 
 

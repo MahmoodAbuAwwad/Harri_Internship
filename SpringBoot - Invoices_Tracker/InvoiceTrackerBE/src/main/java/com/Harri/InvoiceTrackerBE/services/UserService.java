@@ -1,6 +1,7 @@
 package com.Harri.InvoiceTrackerBE.services;
 
 import com.Harri.InvoiceTrackerBE.dtos.UserDTO;
+import com.Harri.InvoiceTrackerBE.enums.UserRole;
 import com.Harri.InvoiceTrackerBE.models.Item;
 import com.Harri.InvoiceTrackerBE.models.User;
 import com.Harri.InvoiceTrackerBE.repositories.UserRepository;
@@ -23,12 +24,27 @@ public class UserService {
 
     public ResponseEntity<?> addNewUser( User user){
 
-        if(validateEmail(user.getEmail())) {
-            userRepo.save(user);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else
-        {
-            return new ResponseEntity<>("email already exists", HttpStatus.CONFLICT);
+        User registeredUser = userRepo.findByEmail((user.getEmail()));
+        if(registeredUser == null){
+            if(userRepo.save(user)!=null){
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }else{
+            registeredUser.setDeleted(0);
+            registeredUser.setPassword(user.getPassword());
+            registeredUser.setFirstName(user.getFirstName());
+            registeredUser.setLastName(user.getLastName());
+            registeredUser.setAddress(user.getAddress());
+            registeredUser.setAge(user.getAge());
+            registeredUser.setDeleted(0);
+            registeredUser.setRole(user.getRole());
+            if(userRepo.save(registeredUser)!=null){
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         }
     }
 
@@ -45,11 +61,19 @@ public class UserService {
     }
 
     public ResponseEntity<?> deleteUser(long id){
-        if(userRepo.existsById(id)){
-            userRepo.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+        User deletedUser = userRepo.findById(id);
+        if(deletedUser!=null){
+            deletedUser.setDeleted(1);
+            if(userRepo.save(deletedUser)!=null){
+                return  new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                return  new ResponseEntity<>("User can't be deleted !",HttpStatus.BAD_REQUEST);
+            }
         }
-        return  new ResponseEntity<>("User not found !",HttpStatus.FORBIDDEN);
+        else{
+            return  new ResponseEntity<>("User not found !",HttpStatus.FORBIDDEN);
+        }
     }
 
     public ResponseEntity<?> editUser( long id , UserDTO user){
@@ -67,13 +91,5 @@ public class UserService {
             }
         }
         return  new ResponseEntity<>("User not found !",HttpStatus.FORBIDDEN);
-    }
-
-    private boolean validateEmail(String email){
-        if(userRepo.existsByEmail(email)){
-            //email exists in the db
-            return  false;
-        }
-        return true;
     }
 }

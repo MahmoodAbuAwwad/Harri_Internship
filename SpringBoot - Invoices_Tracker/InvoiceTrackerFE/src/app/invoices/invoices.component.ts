@@ -88,6 +88,16 @@ export class InvoicesComponent implements OnInit {
   }
   
 
+  deleteInvoice(event:any){
+    let id = parseInt(event.srcElement.outerText.split(" ")[1]);
+    console.log(id);
+    console.log(`${API_CONST.ACTIONS.DELETE_ITEM+id}`)
+    this.httpService.deleteWithToken(`${API_CONST.ACTIONS.DELETE_INVOICE+id}`,this.token).subscribe(data=>{
+      location.reload();
+    },
+    error=>{
+    })
+  }
     getAllInvoices(token:string,pageNo:number,pageSize:number,sortBy:string):Observable<InvoiceResponse[]>{
       console.log(`${API_CONST.ACTIONS.GET_INVOICES}`);
       return  this.httpService.getWithTokenAndParams(`${API_CONST.ACTIONS.GET_INVOICES}`, token,sortBy,pageNo,pageSize);
@@ -122,6 +132,13 @@ export class InvoicesComponent implements OnInit {
     this.allInvoicesList=[]
     this.paginator--;
     this.getItemsPaginated();
+  }
+
+  previwItem(event:any){
+    let id = event.srcElement.outerText.split(" ")[1];
+    console.log(id);
+    localStorage.setItem("previewedInvoice",id);
+    this.router.navigateByUrl("/preview")
   }
 
 }

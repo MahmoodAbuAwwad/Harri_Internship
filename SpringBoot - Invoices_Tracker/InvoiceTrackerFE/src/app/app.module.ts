@@ -19,6 +19,7 @@ import { NewInvoiceComponent } from './new-invoice/new-invoice.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { ErrorComponent } from './error/error.component';
+import { PreviewInvoiceComponent } from './preview-invoice/preview-invoice.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ErrorComponent } from './error/error.component';
     EditUserComponent,
     EditItemComponent,
     ErrorComponent,
+    PreviewInvoiceComponent,
 
 
   ],
