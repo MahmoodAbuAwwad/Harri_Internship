@@ -45,6 +45,7 @@ export class LoginComponent {
       this.badCredentials=false;
       this.getUserInformation(response.token)
       localStorage.setItem ('token', response.token);
+
       this.router.navigateByUrl("/invoices");
     },
     error=>{
@@ -60,6 +61,7 @@ export class LoginComponent {
       console.log(user);
       localStorage.setItem ('email', user.email);
       localStorage.setItem ('role', user.role);
+      localStorage.setItem ('id', user.id);
     },
     error=>{
       console.error( error.error);

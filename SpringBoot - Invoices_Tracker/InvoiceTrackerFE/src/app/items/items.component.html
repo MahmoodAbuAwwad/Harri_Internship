@@ -23,7 +23,7 @@
         <td>{{item.name}}</td>
         <td>{{item.price}} $</td>
         <td scope="col"><button type="button" class="btn btn-warning" (click)="editItem($event)">Edit {{item.id}}</button></td>
-        <td scope="col"><button type="button" class="btn btn-danger" (click)="deleteItem($event)">Delete {{item.id}}</button> </td>
+        <td scope="col"><button type="button" class="btn btn-danger" (click)="deleteItem($event)" disabled>Delete {{item.id}}</button> </td>
       </tr>
     </tbody>
   </table>

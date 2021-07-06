@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div>
     <br><br>
-    <td><button type="button" class="btn btn-primary">New Invoice</button></td>
+    <td><button type="button" class="btn btn-primary" (click)="navigate($event)" *ngIf="auditor">New Invoice</button></td>
     <br>
 </div>
 <table class="table">
@@ -15,6 +15,8 @@
         <th scope="col">Total</th>
         <th scope="col">Date</th>
         <th scope="col">User</th>
+        <th scope="col">attachment type</th>
+        <th scope="col">attachment path</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -22,27 +24,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>asd</td>
+      <tr *ngFor="let invoice of allInvoicesList">
+        <th scope="row">{{invoice.id}}</th>
+        <td>{{invoice.invoiceType}}</td>
+        <td>{{invoice.invoiceTotal}}</td>
+        <td>{{invoice.invoiceDate}}</td>
+        <td>{{invoice.user.firstName}}{{invoice.user.lastName}}</td>
+        <td>{{invoice.fileType}}</td>
+        <td>{{invoice.filePath}}</td>
+
         <td scope="col"><button type="button" class="btn btn-dark">Preview</button></td>
         <td scope="col"><button type="button" class="btn btn-warning" *ngIf="auditor">Edit</button></td>
         <td scope="col"><button type="button" class="btn btn-danger" *ngIf="auditor">Delete</button> </td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
     </tbody>
   </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" *ngIf="paginator>0" (click)="getItemsPreviousPaginated()" >Previous</a></li>
+      <li class="page-item"><a class="page-link" (click)="getItemsNextPaginated()">Next</a></li>
+    </ul>
+  </nav>

@@ -24,6 +24,20 @@ constructor(private httpClient: HttpClient) {
     return this.httpClient.get(`${API_CONST.BASE_URL}${action}`,{headers: headers});
   }
 
+  public getWithTokenAndParams(action: string, token:string, sortBy:string, pageNo:number,pageSize:number) : Observable<any> {
+
+    const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8', 'Authorization':"Bearer "+token});
+    console.log("paginator = "+pageNo)
+    return this.httpClient.get(`${API_CONST.BASE_URL}${action}`,
+    {params:
+      {
+        pageNo:pageNo,
+        pageSize:pageSize,
+        sortBy:sortBy
+     }
+    ,headers: headers});
+  }
+
 
   public post(action: string, data: any) {
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
@@ -33,6 +47,13 @@ constructor(private httpClient: HttpClient) {
   }
   public postWithToken(action: string, data: any,token:string) {
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8', 'Authorization':"Bearer "+token});
+    console.log(`${API_CONST.BASE_URL}${action}`)
+    console.log(data)
+    return this.httpClient.post(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
+  }
+
+  public postWithTokenNoContent(action: string, data: any,token:string) {
+    const headers = new HttpHeaders({'Authorization':"Bearer "+token});
     console.log(`${API_CONST.BASE_URL}${action}`)
     console.log(data)
     return this.httpClient.post(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});

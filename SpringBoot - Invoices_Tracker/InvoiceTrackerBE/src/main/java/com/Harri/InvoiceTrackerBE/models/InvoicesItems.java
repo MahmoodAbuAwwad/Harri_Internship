@@ -1,24 +1,27 @@
 package com.Harri.InvoiceTrackerBE.models;
 
 import lombok.Getter;
-import lombok.*;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
-@Table(name = "items")
-public class Item {
+@Table(name = "invoices_items")
+public class InvoicesItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 20)
-    private String name;
-    @Column(nullable = false, length = 20)
-    private String price;
+    @Column(nullable = false)
+    private long item_id;
+
+    @Column(nullable = false)
+    private  long invoice_id;
+
+
 }

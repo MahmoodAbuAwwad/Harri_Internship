@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+//this used to allow access control needed ( CORS Configuration)
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
@@ -34,6 +36,8 @@ public class CorsFilter implements Filter {
             originValue = origin;
         }
 
+        //handle pre-request request
+        //allow all methods and all origins
         if(originValue.contains(origin)) {
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Credentials", "true");

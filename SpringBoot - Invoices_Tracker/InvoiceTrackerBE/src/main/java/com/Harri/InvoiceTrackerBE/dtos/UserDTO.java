@@ -1,11 +1,15 @@
 package com.Harri.InvoiceTrackerBE.dtos;
 
 import com.Harri.InvoiceTrackerBE.enums.UserRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.*;
 
+//User  Data transfer object
 public class UserDTO {
     //this class used to pass data to Models.User to store in DB
     private String firstName;
@@ -16,6 +20,19 @@ public class UserDTO {
     private String password;
     private UserRole role;
 
+//    public Collection<? extends GrantedAuthority> getAuthorities(){
+//        //this should be moved to a table, so it would be like ==> rolesRepo.getRoles() instead of appending each role
+//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        Set<UserRole> roles = new HashSet<>();
+//        roles.add(UserRole.USER);
+//        roles.add(UserRole.SUPERUSER);
+//        roles.add(UserRole.AUDITOR);
+//
+//        for(UserRole role: roles){
+//            authorities.add(new SimpleGrantedAuthority(role.name()));
+//        }
+//        return  authorities;
+//    }
     public String getFirstName() {
         return firstName;
     }

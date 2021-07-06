@@ -74,6 +74,7 @@ export class EditUserComponent implements OnInit {
     if(this.errorFlag === false){
       this.errorFlag=false
       this.userEdit.firstName=this.first;
+      this.userEdit.lastName=this.last
       this.userEdit.last=this.last;
       this.userEdit.address=this.address;
       this.userEdit.age=this.age;

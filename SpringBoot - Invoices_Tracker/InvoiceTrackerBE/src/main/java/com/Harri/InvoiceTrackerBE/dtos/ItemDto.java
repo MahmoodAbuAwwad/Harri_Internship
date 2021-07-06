@@ -1,6 +1,6 @@
 package com.Harri.InvoiceTrackerBE.dtos;
 
-
+////Item Data transfer object
 public class ItemDto {
     private long id;
     private String name;
