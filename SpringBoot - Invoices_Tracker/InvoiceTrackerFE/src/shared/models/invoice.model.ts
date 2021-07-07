@@ -9,6 +9,7 @@ export class Invoice {
         public file_type:string,
         public file:File,
         public items:Item[],
-        public id?: number) {
+        public id?: number,
+        public note?:string) {
     }
 }

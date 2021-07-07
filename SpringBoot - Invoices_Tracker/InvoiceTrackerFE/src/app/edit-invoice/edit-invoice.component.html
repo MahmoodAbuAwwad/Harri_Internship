@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+            <div class="d-table-cell align-middle">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="m-sm-4">
+                            <form method="POST" (ngSubmit)="onSubmit()" #f="ngForm" >
+                                <div class="form-group">
+                                    <label><b>Invoice Type</b></label>
+                                    <select class="form-select" aria-label="select type" (change)="selectType($event)" required>
+                                        <option *ngFor="let o of options"  [selected]="o.value == invoiceType">{{o.name}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                               
+
+
+                                <div class="form-group">
+                                    <label><b>Items</b></label>
+                                    <select class="form-select" [(ngModel)]="selectedItems" multiple aria-label="multiple select example"  name="items" (change)="items($event)">
+                                        <option *ngFor="let item of allItemsList" [selected]="isSelectedItem(item.id)">{{item.name}}</option>
+                                      </select>
+                                      <!-- iterate over list from items -->
+                                </div>
+
+                                <div class="form-group">
+                                    <label><b>Invoice Total</b></label>
+                                    <input class="form-control form-control-lg" type="number" min="0" name="total" [(ngModel)]="total" placeholder="100$"required>
+                                </div><br>
+                                <div class="form-group">
+                                    <label><b>Note</b></label>
+                                    <input class="form-control form-control-lg" type="text" name="note" [(ngModel)]="note" placeholder="add note"required>
+                                </div><br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (change)="updateAttch($event)">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Update Attachment
+                                    </label>
+                                  </div>
+                                <div class="form-group" >
+                                    <label><b>Attachment Type</b></label>
+                                    <br>
+                                    <label>None</label>
+                                    <input class="form-check-input" type="radio" value="None"  [disabled]="updateAttachment"
+                                     name="a" value="None" [checked]="isNone"  (change)="onItemChange($event)"
+                                    /><br>
+
+                                    <label>Image</label>
+                                    <input class="form-check-input" type="radio" value="Image" [disabled]="updateAttachment"
+                                     name="a" value="Image" [checked]="isImage" (change)="onItemChange($event)"
+                                    /><br>
+
+                                    <label>File</label>
+                                    <input class="form-check-input" type="radio" value="File" [disabled]="updateAttachment"
+                                     name="a" value="File" [checked]="isFile" (change)="onItemChange($event)" 
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label><b> attachment file</b></label>
+                                    <input class="form-control form-control-lg" type="file" [disabled]="updateAttachment" (change)="uploadFile($event)" name="file" required>
+                                </div>
+                                <br>
+                                
+                                <br>
+                                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                                <br>
+                                <br>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -141,4 +141,10 @@ export class InvoicesComponent implements OnInit {
     this.router.navigateByUrl("/preview")
   }
 
+  editInvoice(event:any){
+    let id = event.srcElement.outerText.split(" ")[1];
+    console.log(id);
+    localStorage.setItem("editedInvoiceId",id);
+    this.router.navigateByUrl("/editInvoice")
+  }
 }

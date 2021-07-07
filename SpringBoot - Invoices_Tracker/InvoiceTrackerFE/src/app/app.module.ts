@@ -20,6 +20,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { ErrorComponent } from './error/error.component';
 import { PreviewInvoiceComponent } from './preview-invoice/preview-invoice.component';
+import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PreviewInvoiceComponent } from './preview-invoice/preview-invoice.compo
     EditItemComponent,
     ErrorComponent,
     PreviewInvoiceComponent,
+    EditInvoiceComponent,
 
 
   ],

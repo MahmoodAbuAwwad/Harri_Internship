@@ -3,6 +3,7 @@ package com.Harri.InvoiceTrackerBE.controllers;
 import com.Harri.InvoiceTrackerBE.models.Invoice;
 
 import com.Harri.InvoiceTrackerBE.models.InvoiceLogs;
+import com.Harri.InvoiceTrackerBE.models.Item;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceItemsRepository;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceRepository;
 import com.Harri.InvoiceTrackerBE.services.InvoiceService;
@@ -39,6 +40,10 @@ public class InvoiceController  {
     public ResponseEntity<?>addInvoice(@RequestParam(value = "json", required = false) String invoice,@RequestParam(value = "file", required = false) MultipartFile file ) throws IOException {
         return invoiceService.addInvoice(invoice,file);
     }
+    @PutMapping("/invoices/edit/{id}")
+    public ResponseEntity<?>editInvoice(@RequestParam(value = "json", required = false) String invoice,@RequestParam(value = "file", required = false) MultipartFile file,@PathVariable long id ) throws IOException {
+        return invoiceService.editInvoice(invoice,file,id);
+    }
 
     //get all invoices
     @GetMapping("/invoices")
@@ -59,6 +64,18 @@ public class InvoiceController  {
         }
         return  null;
     }
+
+    @GetMapping("/invoices/items/{id}")
+    public List<Item> getItemsOfInvoice(@PathVariable long id)  {
+        try{
+            return invoiceService.getItemsOfInvoice(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
 
     @GetMapping("/invoices/preview/logs/{invoiceId}")
     public List<InvoiceLogs> getInvoiceLogs(@PathVariable long invoiceId)  {

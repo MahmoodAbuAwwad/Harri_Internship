@@ -64,6 +64,11 @@ constructor(private httpClient: HttpClient) {
 
     return this.httpClient.put(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
   }
+
+  public putWithTokenNoContent(action: string, data: any,token:string) {
+    const headers = new HttpHeaders({'Authorization':"Bearer "+token});
+    return this.httpClient.put(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
+  }
   
   public putWithToken(action: string, data: any,token:string) {
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8', 'Authorization':"Bearer "+token});

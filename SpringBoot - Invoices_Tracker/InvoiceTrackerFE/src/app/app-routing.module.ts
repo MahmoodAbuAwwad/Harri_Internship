@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ErrorComponent } from './error/error.component';
@@ -29,6 +30,8 @@ const routes: Routes = [
   { path: 'newInvoice', component: NewInvoiceComponent },
   { path: 'error', component: ErrorComponent },
   { path: 'preview', component: PreviewInvoiceComponent },
+  { path: 'editInvoice', component: EditInvoiceComponent },
+
 
 
 
