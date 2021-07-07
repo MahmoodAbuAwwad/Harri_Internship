@@ -54,7 +54,7 @@ public class InvoiceService {
         newInvoice.setInvoiceDate(LocalDateTime.now());
         newInvoice.setInvoiceTotal(invoiceJson.getFloat("total"));
         newInvoice.setUser(getUserJson(invoiceJson.getJSONObject("user")));
-        newInvoice.setFileType(invoiceJson.getString("type"));
+        newInvoice.setFileType(invoiceJson.getString("file_type"));
         if(newInvoice.getFileType().compareTo("None")!=0){
             String orgName = file.getOriginalFilename();
             String filePath = InvoiceController.uploadDir + "/"+orgName;
@@ -110,9 +110,15 @@ public class InvoiceService {
         newInvoice.setInvoiceType(returnInvoiceType(invoiceJson.getInt("invoiceType")));
         newInvoice.setInvoiceDate(LocalDateTime.now());
         newInvoice.setInvoiceTotal(invoiceJson.getFloat("total"));
+        if(file==null){
+            newInvoice.setFileType(oldInvoice.getFileType());
+            newInvoice.setFilePath(oldInvoice.getFilePath());
+        }
+        else{
+            newInvoice.setFileType(invoiceJson.getString("file_type"));
+        }
         newInvoice.setUser(getUserJson(invoiceJson.getJSONObject("user")));
-        newInvoice.setFileType(invoiceJson.getString("file_type"));
-        if(newInvoice.getFileType().compareTo("None")!=0){
+        if(newInvoice.getFileType().compareTo("None")!=0  && file!=null){
             String orgName = file.getOriginalFilename();
             String filePath = InvoiceController.uploadDir + "/"+orgName;
             File dest = new File(filePath);
@@ -120,7 +126,8 @@ public class InvoiceService {
             newInvoice.setFilePath(InvoiceController.uploadDir +"/"+file.getOriginalFilename());
         }
         else{
-            newInvoice.setFileType("None");
+            newInvoice.setFileType(oldInvoice.getFileType());
+            newInvoice.setFilePath(oldInvoice.getFilePath());
         }
 
         Invoice createdInvoice = this.invoiceRepo.save(newInvoice);

@@ -45,7 +45,7 @@ export class EditInvoiceComponent implements OnInit {
   selectedItems:string[]=[]
   finalSelectedItems:Items[]=[]
   uploadForm: any | FormGroup;  
-  file!: File; 
+  file: File | null = null;
   note:string=""
   options = [
     { name: "Paid", value: INVOICE_TYPE_E.PAID },
@@ -181,7 +181,7 @@ export class EditInvoiceComponent implements OnInit {
   
 
   uploadFile(event :any){
-    this.file = event.target.value; 
+    this.file = event.target.files.item(0); 
     console.log(this.file); 
   }
   onSubmit(){
@@ -192,12 +192,18 @@ export class EditInvoiceComponent implements OnInit {
     }
     if(this.errorFlag === false){
       this.errorFlag=false
-      let invoice =  new Invoice(this.total,this.selectedOption,this.user,this.selectedFileType,this.file,this.finalSelectedItems,parseInt(this.preveiwedInvoiceId),this.note)
+      console.log(this.file)
+
+      let invoice =  new Invoice(this.total,this.selectedOption,this.user,this.selectedFileType,this.file!,this.finalSelectedItems,parseInt(this.preveiwedInvoiceId),this.note)
       console.log(JSON.stringify(invoice));
       console.log(this.file);
       
       let formData = new FormData();
-      formData.append('file', this.file);
+      if(!this.updateAttachment){
+        console.log("Hi");
+        
+        formData.append('file', this.file! , this.file?.name);
+      }
       formData.append('json', JSON.stringify(invoice));
       
       this.httpService.putWithTokenNoContent(`${API_CONST.ACTIONS.EDIT_INVOICE+this.preveiwedInvoiceId}`, formData, this.token).toPromise().then((response) => {

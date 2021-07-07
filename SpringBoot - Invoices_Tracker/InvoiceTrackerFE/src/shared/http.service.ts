@@ -52,12 +52,6 @@ constructor(private httpClient: HttpClient) {
     return this.httpClient.post(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
   }
 
-  public postWithTokenNoContent(action: string, data: any,token:string) {
-    const headers = new HttpHeaders({'Authorization':"Bearer "+token});
-    console.log(`${API_CONST.BASE_URL}${action}`)
-    console.log(data)
-    return this.httpClient.post(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
-  }
 
   public put(action: string, data: any) {
     const headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
@@ -85,4 +79,21 @@ constructor(private httpClient: HttpClient) {
 
     return this.httpClient.delete(`${API_CONST.BASE_URL}${action}`,{headers: headers});
   }
+
+
+
+
+  public postWithTokenNoContent(action: string, data: any,token:string) {
+    const headers = new HttpHeaders(
+        {
+          'Authorization':"Bearer "+token,
+        }
+      );
+    console.log(`${API_CONST.BASE_URL}${action}`)
+    console.log(data)
+    return this.httpClient.post(`${API_CONST.BASE_URL}${action}`, data,{headers: headers});
+  }
+
+
+
 }

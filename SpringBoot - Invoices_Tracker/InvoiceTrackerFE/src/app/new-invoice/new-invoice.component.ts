@@ -29,7 +29,7 @@ export class NewInvoiceComponent implements OnInit {
   selectedItems:string[]=[]
   finalSelectedItems:Items[]=[]
   uploadForm: any | FormGroup;  
-  file!: File; 
+  file: File | null = null;
   options = [
     { name: "Paid", value: INVOICE_TYPE.PAID },
     { name: "Not Paid", value: INVOICE_TYPE.NOT_PAID },
@@ -92,7 +92,7 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   uploadFile(event :any){
-    this.file = event.target.value; 
+    this.file = event.target.files.item(0); 
     console.log(this.file); 
   }
   onSubmit(){
@@ -103,11 +103,12 @@ export class NewInvoiceComponent implements OnInit {
     }
     if(this.errorFlag === false){
       this.errorFlag=false
-      let invoice =  new Invoice(this.total,this.selectedOption,this.user,this.selectedFileType,this.file,this.finalSelectedItems)
+      let invoice =  new Invoice(this.total,this.selectedOption,this.user,this.selectedFileType,this.file!,this.finalSelectedItems)
       console.log(invoice);
+      console.log(this.file)
       let form_data = new FormData();
       console.log(this.file)
-      form_data.append('file', this.file);
+      form_data.append('file', this.file! , this.file?.name);
       form_data.append('json', JSON.stringify(invoice));
 
       
