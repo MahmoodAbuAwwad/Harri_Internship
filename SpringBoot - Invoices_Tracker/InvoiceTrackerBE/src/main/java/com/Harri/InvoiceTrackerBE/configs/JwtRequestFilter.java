@@ -35,14 +35,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-
         String username = null;
         String jwtToken = null;
 
+        //filter and get the token without Bearer
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             // 7 since jwt starts with Bearer, remove 7 to get token only
             try {
+                //to validate jwt token
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
@@ -57,6 +58,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // TODO: I have to get the user details from the token instead of a database call
+            // do a database call to get the user
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
 
             // if token is valid configure Spring Security to manually set

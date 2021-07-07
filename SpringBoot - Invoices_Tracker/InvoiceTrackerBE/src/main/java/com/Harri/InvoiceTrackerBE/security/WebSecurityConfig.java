@@ -65,13 +65,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/login","/signup").permitAll().
-                anyRequest().authenticated().
+                //allow login and sign up without any checks
+                anyRequest().authenticated()
 
-
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
-                        and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                // stateless session , session won't be used to
+                // store user's state., handle unauthorized with jwtAuthenticationEntryPoint , 401 error
+                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

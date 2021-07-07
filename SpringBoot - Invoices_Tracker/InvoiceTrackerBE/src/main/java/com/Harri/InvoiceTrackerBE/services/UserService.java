@@ -22,8 +22,8 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
 
+    //signup user
     public ResponseEntity<?> addNewUser( User user){
-
         User registeredUser = userRepo.findByEmail((user.getEmail()));
         if(registeredUser == null){
             if(userRepo.save(user)!=null){
@@ -48,18 +48,23 @@ public class UserService {
         }
     }
 
+    //get user
     public User getUser(long id){
         return  userRepo.findById(id);
     }
 
+    //get user
     public User findUserByEmail(String email){
         return  userRepo.findByEmail(email);
     }
 
+    //get all users
     public List<User> getAllUser(){
         return (List<User>) userRepo.findAll();
     }
 
+
+    //delete user, set deleted = 1
     public ResponseEntity<?> deleteUser(long id){
         User deletedUser = userRepo.findById(id);
         if(deletedUser!=null){
@@ -76,6 +81,7 @@ public class UserService {
         }
     }
 
+    //edit user info
     public ResponseEntity<?> editUser( long id , UserDTO user){
         if(userRepo.existsById(id)){
             User editUser = userRepo.findById(id);

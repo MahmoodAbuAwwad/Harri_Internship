@@ -20,11 +20,16 @@ public class LoginUserDetailsService implements UserDetailsService {
     private UserRepository userRepo;
 
     @Override
+    //login
+    //load user from database
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         com.Harri.InvoiceTrackerBE.models.User user = userRepo.findByEmail(email);
+        //if user is deleted, don't allow siging in
         if (user == null || user.getDeleted()==1) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
+        //set authority of logged in here to allow access using preauthorize(hasauthority)
+        // enum should extend GrantedAuthoritreis and return it, check UserRole Enum
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 Arrays.asList(user.getRole()));
     }

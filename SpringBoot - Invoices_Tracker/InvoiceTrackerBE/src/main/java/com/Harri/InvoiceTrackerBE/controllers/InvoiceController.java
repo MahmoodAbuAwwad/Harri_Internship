@@ -1,19 +1,14 @@
 package com.Harri.InvoiceTrackerBE.controllers;
-
 import com.Harri.InvoiceTrackerBE.models.Invoice;
-
 import com.Harri.InvoiceTrackerBE.models.InvoiceLogs;
 import com.Harri.InvoiceTrackerBE.models.Item;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceItemsRepository;
 import com.Harri.InvoiceTrackerBE.repositories.InvoiceRepository;
 import com.Harri.InvoiceTrackerBE.services.InvoiceService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-
 import java.io.IOException;
 import java.util.List;
 
@@ -24,15 +19,14 @@ public class InvoiceController  {
     private InvoiceRepository invoiceRepo;
     @Autowired
     private InvoiceService invoiceService;
-
     @Autowired
     private InvoiceItemsRepository invoicesItemsRepo;
-
     @Autowired
     private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogsRepository invoiceLogRepo;
     @Autowired
     private com.Harri.InvoiceTrackerBE.repositories.InvoiceLogsRepository logsRepo;
 
+    //specify the directory to save the attachments.
     public static  String uploadDir = System.getProperty("user.dir")+"/uploads";
 
     //add Invoice

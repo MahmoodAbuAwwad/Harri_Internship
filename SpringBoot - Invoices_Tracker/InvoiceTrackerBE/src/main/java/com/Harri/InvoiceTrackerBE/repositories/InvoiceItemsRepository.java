@@ -12,11 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 @Repository
 @Transactional
+//delete items-invoice from cross table by invoice id
 public interface InvoiceItemsRepository extends CrudRepository<InvoicesItems,Long> {
     void deleteAllByInvoiceId(long id);
-//
-//    @Query(value = "FROM InvoicesItems JOIN  Item on InvoicesItems.itemId = Item.id where InvoicesItems.invoiceId= :invoiceId")
-//    List<InvoicesItems> findInvoiceItems2( @Param("invoiceId") long invoiceId);
 
 
 }

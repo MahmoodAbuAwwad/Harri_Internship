@@ -16,6 +16,7 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
+    //specify the origin, angular host where the request will be fired
     @Value("${origin}")
     private String origin;
     public static String VALID_METHODS = "DELETE, HEAD, GET, OPTIONS, POST, PUT";
