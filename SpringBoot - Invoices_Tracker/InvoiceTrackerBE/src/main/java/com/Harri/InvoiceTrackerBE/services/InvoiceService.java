@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class InvoiceService {
         newInvoice.setInvoiceTotal(invoiceJson.getFloat("total"));
         newInvoice.setUser(getUserJson(invoiceJson.getJSONObject("user")));
         newInvoice.setFileType(invoiceJson.getString("file_type"));
-        if(newInvoice.getFileType().compareTo("None")!=0){
+        if(newInvoice.getFileType().compareTo("None")!=0 && file!=null){
             String orgName = file.getOriginalFilename();
             String filePath = InvoiceController.uploadDir + "/"+orgName;
             File dest = new File(filePath);
@@ -231,26 +232,35 @@ public class InvoiceService {
         }
     }
 
-    //get all invoice of specific user, paginated and sorted on date
-    public List<Invoice> getAllInvoicesOfUser(long user_id,Integer pageNo,Integer pageSize, String sortBy){
-         List<Invoice> allInvoices = getAllInvoices(pageNo,pageSize,sortBy);
-         User user = userRepo.findById(user_id);
-         List<Invoice> forUser =new ArrayList<>();
-         if(user.getRole()==UserRole.USER){
-             for(int i=0; i<allInvoices.size();i++){
-                 if(allInvoices.get(i).getUser().getId()==user.getId()){
-                     forUser.add((allInvoices.get(i)));
-                 }
-             }
-         }
-         else{
-             for(int i=0; i<allInvoices.size();i++){
-                     forUser.add((allInvoices.get(i)));
-             }
-         }
-
-         return forUser;
+    //TODO: Get Pagging Based on USER ROLE.
+    //get all invoices of user paginated and sorted using Date
+    public List<Invoice> getUserAllInvoices(Integer pageNo,Integer pageSize, String sortBy,long userId){
+        PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Pageable pageInfo = PageRequest.of(pageNo, pageSize);
+        List<Invoice> pagedResult = invoiceRepo.findAllByUser_Id(userId,pageInfo);
+        return pagedResult;
     }
+
+//    //get all invoice of specific user, paginated and sorted on date
+//    public List<Invoice> getAllInvoicesOfUser(long user_id,Integer pageNo,Integer pageSize, String sortBy){
+//         List<Invoice> allInvoices = getAllInvoices(pageNo,pageSize,sortBy);
+//         User user = userRepo.findById(user_id);
+//         List<Invoice> forUser =new ArrayList<>();
+//         if(user.getRole()==UserRole.USER){
+//             for(int i=0; i<allInvoices.size();i++){
+//                 if(allInvoices.get(i).getUser().getId()==user.getId()){
+//                     forUser.add((allInvoices.get(i)));
+//                 }
+//             }
+//         }
+//         else{
+//             for(int i=0; i<allInvoices.size();i++){
+//                     forUser.add((allInvoices.get(i)));
+//             }
+//         }
+//
+//         return forUser;
+//    }
 
     //delete invoice, delete its logs and linked rows in itemsinvoice table
     public ResponseEntity<?> deleteInvoice(long id){

@@ -84,7 +84,7 @@ public class InvoiceController  {
     public List<Invoice> getAllInvoicesOfUser(@PathVariable long user_id, @RequestParam(defaultValue = "0") Integer pageNo,
                                               @RequestParam(defaultValue = "10") Integer pageSize,
                                               @RequestParam(defaultValue = "invoiceDate") String sortBy)  {
-        return invoiceService.getAllInvoicesOfUser(user_id,pageNo,pageSize,sortBy);
+        return invoiceService.getUserAllInvoices(pageNo,pageSize,sortBy,user_id);
     }
 
     @PreAuthorize("hasAuthority('SUPERUSER')"+"||hasAuthority('USER') ")

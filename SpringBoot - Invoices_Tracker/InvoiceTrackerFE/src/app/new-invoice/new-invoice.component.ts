@@ -108,7 +108,10 @@ export class NewInvoiceComponent implements OnInit {
       console.log(this.file)
       let form_data = new FormData();
       console.log(this.file)
-      form_data.append('file', this.file! , this.file?.name);
+      if(this.file!=null){
+
+        form_data.append('file', this.file! , this.file?.name);
+      }
       form_data.append('json', JSON.stringify(invoice));
 
       
