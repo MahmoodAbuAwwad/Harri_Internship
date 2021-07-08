@@ -47,13 +47,13 @@ public class ItemController {
     /*
     * INFO: need to be handled with database, this will give error, break constraint in db
     * */
-    @DeleteMapping("/items/delete/{id}")
+    @DeleteMapping("/items/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable long id) throws Exception {
        return this.itemService.deleteItem(id);
     }
 
     //edit specific item
-    @PutMapping("/items/edit/{id}")
+    @PutMapping("/items/{id}")
     public ResponseEntity<?> editItem(@PathVariable long id, @RequestBody ItemDto item ) throws Exception {
         return  itemService.editItem(id,item);
     }

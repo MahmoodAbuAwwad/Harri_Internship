@@ -38,7 +38,7 @@ public class InvoiceController  {
     }
 
     @PreAuthorize("hasAuthority('SUPERUSER')"+"||hasAuthority('USER') ")
-    @PutMapping("/invoices/edit/{id}")
+    @PutMapping("/invoices/{id}")
     public ResponseEntity<?>editInvoice(@RequestParam(value = "json", required = false) String invoice,@RequestParam(value = "file", required = false) MultipartFile file,@PathVariable long id ) throws IOException {
         return invoiceService.editInvoice(invoice,file,id);
     }
@@ -88,7 +88,7 @@ public class InvoiceController  {
     }
 
     @PreAuthorize("hasAuthority('SUPERUSER')"+"||hasAuthority('USER') ")
-    @DeleteMapping("/invoices/delete/{id}")
+    @DeleteMapping("/invoices/{id}")
     public ResponseEntity<?> deleteInvoice(@PathVariable long id) throws Exception {
 
         return this.invoiceService.deleteInvoice(id);

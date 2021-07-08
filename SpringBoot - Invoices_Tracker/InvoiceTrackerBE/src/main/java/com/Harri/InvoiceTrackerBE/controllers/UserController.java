@@ -122,7 +122,7 @@ public class UserController {
 
     //edit user
     @PreAuthorize("hasAuthority('SUPERUSER')")
-    @PutMapping("/users/edit/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<?> editUser(@PathVariable long id, @RequestBody UserDTO user ) throws Exception {
         return userService.editUser(id,user);
     }

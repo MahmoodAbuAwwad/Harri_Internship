@@ -232,12 +232,10 @@ public class InvoiceService {
         }
     }
 
-    //TODO: Get Pagging Based on USER ROLE.
     //get all invoices of user paginated and sorted using Date
     public List<Invoice> getUserAllInvoices(Integer pageNo,Integer pageSize, String sortBy,long userId){
         PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-        Pageable pageInfo = PageRequest.of(pageNo, pageSize);
-        List<Invoice> pagedResult = invoiceRepo.findAllByUser_Id(userId,pageInfo);
+        List<Invoice> pagedResult = invoiceRepo.findAllByUser_Id(userId,paging);
         return pagedResult;
     }
 

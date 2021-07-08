@@ -6,18 +6,18 @@ export const API_CONST = {
       LOGGED_IN: 'logged-in',
       GET_USERS: 'users',
       DELETE_USER:'users/delete/',
-      EDIT_USER: 'users/edit',
+      EDIT_USER: 'users',
       GET_ITEMS:'items',
-      DELETE_ITEM:'items/delete/',
-      EDIT_ITEM:'items/edit',
+      DELETE_ITEM:'items/',
+      EDIT_ITEM:'items',
       ADD_ITEM:'items',
       ADD_INVOICE:'invoices',
       GET_INVOICES:'invoices',
-      DELETE_INVOICE:'invoices/delete/',
+      DELETE_INVOICE:'invoices/',
       PREVIEW_GET_INVOICE:'invoices/preview/',
       PREVIEW_GET_INVOICE_LOGS:'invoices/preview/logs/',
       GET_INVOICE_ITEMS:'invoices/items/',
-      EDIT_INVOICE:'invoices/edit/'
+      EDIT_INVOICE:'invoices/'
 
     }
   };
