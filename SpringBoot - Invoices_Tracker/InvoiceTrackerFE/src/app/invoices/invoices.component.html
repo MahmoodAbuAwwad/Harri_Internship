@@ -33,7 +33,7 @@
         <td>{{invoice.fileType}}</td>
         <td>{{invoice.filePath}}</td>
 
-        <td scope="col"><button type="button" class="btn btn-dark" (click)="previwItem($event)">Preview {{invoice.id}}</button></td>
+        <td scope="col"><button type="button" class="btn btn-dark" *ngIf="!auditor"(click)="previwItem($event)">Preview {{invoice.id}}</button></td>
         <td scope="col"><button type="button" class="btn btn-warning" *ngIf="auditor" (click)="editInvoice($event)">Edit {{invoice.id}}</button></td>
         <td scope="col"><button type="button" class="btn btn-danger" *ngIf="auditor" (click)="deleteInvoice($event)">Delete {{invoice.id}}</button> </td>
       </tr>

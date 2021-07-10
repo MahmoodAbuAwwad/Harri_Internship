@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +72,8 @@ public class UserController {
     }
 
     //authenticate user via username(Email) and password using authentication manager
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+    private void authenticate(String username, String password) throws BadCredentialsException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
     //this returned logged in user
@@ -108,7 +105,7 @@ public class UserController {
     public User getUser(@PathVariable long id) throws Exception {
         User returnedUser = userService.getUser(id);
         if(returnedUser.getDeleted()==1){
-            throw new Exception("User is not found (deleted) ");
+            throw new UnsupportedOperationException("User is not found (deleted) ");
         }
         return returnedUser;
     }
